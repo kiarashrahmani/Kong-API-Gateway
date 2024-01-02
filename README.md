@@ -75,6 +75,11 @@ When you type ``` http://yourip:5000/``` into your browser's address bar and hit
 ## Step 5:Installing plugins
 In this section, we guide you through the installation and usage of ten distinct plugins in Kong, providing step-by-step instructions for each
 ### Step 5-1: IP restriction plugin
+first we should know our docker's IP to add it in allow or deny list.
+for understanding your docker's IP on windows:
+first opn a windows powershwell.then run following commands :
+```bash docker ps```  
+```bash docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" <container_name_or_id```
 in this step you should go to Plugins section and enable IP Restriction plugin.
 
 ![Local Image](/images/IP-restriction/1.JPG)  
