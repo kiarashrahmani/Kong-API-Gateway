@@ -6,7 +6,7 @@ app = Flask(__name__)
 def hello():
     print("Received a request from Kong!")
     
-    # Access and print request details
+    
     print("Request Method:", request.method)
     print("Request URL:", request.url)
     print("Request Headers:", request.headers)
