@@ -236,7 +236,8 @@ docker inspect kong-net
 <img src="/images/Request-Size-Limiting/5.JPG" alt="Local Image">
 
 <h3>Step 5-8: Key auth restriction plugin</h3>
-<p>In the first step, you should go to the Plugins section and enable the Request size limiting plugin.</p>
+
+<p>In the first step, you should go to the Plugins section and enable the Key auth restriction plugin.</p>
 
 <img src="/images/Key-Auth/1.JPG" alt="Local Image">
 
@@ -245,4 +246,47 @@ docker inspect kong-net
 <img src="/images/Key-Auth/2.JPG" alt="Local Image">
 <img src="/images/Key-Auth/3.JPG" alt="Local Image">
 
-<p>Use Thunder Client, Postman, or your preferred service
+<p>Use Thunder Client, Postman, or your preferred service to send a GET request to <code>http://yourip:8000/yourservicename</code>. If an incorrect API key is used, as illustrated in the image below, a 401 Unauthorized error will be returned, indicating that the provided credentials are invalid and access to the requested resource is not permitted.</p>
+
+<img src="/images/Key-Auth/4-5.JPG" alt="Local Image">
+
+<p>If a valid API key is utilized in the request, as demonstrated in the image below, a successful authentication will result in a 200 status code. In this case, the Authorization header of the response will contain your authentication information, confirming authorized access to the requested resource.</p>
+
+<img src="/images/Key-Auth/5.JPG" alt="Local Image">
+
+<h3>Step 5-9: ACL plugin</h3>
+
+<p>In the first step, you should go to the Plugins section and enable the ACL plugin.</p>
+
+<img src="/images/ACL/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/ACL/2.JPG" alt="Local Image">
+<img src="/images/ACL/3.JPG" alt="Local Image">
+
+<p>After configuring your settings, follow the outlined steps to create two consumers, as previously explained.</p>
+
+<img src="/images/ACL/4.JPG" alt="Local Image">
+
+<p>Alternatively, if you already have two consumers, navigate to the 'Consumers' section in your Kong panel. Then, proceed to the 'Credentials' section, where you can add ACL credentials for both consumers.</p>
+
+<img src="/images/ACL/5.JPG" alt="Local Image">
+<img src="/images/ACL/6.JPG" alt="Local Image">
+
+<p>Now ensure that the Basic Authentication plugin is enabled in your configuration.</p>
+
+<img src="/images/ACL/7.JPG" alt="Local Image">
+
+<p>Consequently, upon opening your browser and entering <code>http://yourip:8000/yourservicename</code> into the browser's address bar. After signing into your service, refer to the provided image below to observe that the admin consumer is granted access to the service.</p>
+
+<img src="/images/ACL/8.JPG" alt="Local Image">
+<img src="/images/ACL/9.JPG" alt="Local Image">
+
+<p>Whereas the bot consumer is restricted from accessing it.</p>
+
+<img src="/images/ACL/10.JPG" alt="Local Image">
+<img src="/images/ACL/11.JPG" alt="Local Image">
+
+</body>
+</html>
