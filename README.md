@@ -68,18 +68,16 @@ When you type ``` http://yourip:5000/``` into your browser's address bar and hit
  #### image of creating service should be added 
  
  ### Step4-2: Adding your route in Kong
+
+ #### image of creating route should be added 
  
- ### Step4-1: Adding your consumer in Kong
+ ### Step4-3: Adding your consumer in Kong
  
- 
+ #### image of creating consumer should be added 
+
 ## Step 5:Installing plugins
 In this section, we guide you through the installation and usage of ten distinct plugins in Kong, providing step-by-step instructions for each
 ### Step 5-1: IP restriction plugin
-first we should know our docker's IP to add it in allow or deny list.
-for understanding your docker's IP on windows:
-first opn a windows powershwell.then run following commands :  
-```bash docker ps```  
-```bash docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" <container_name_or_id```  
 in this step you should go to Plugins section and enable IP Restriction plugin.
 
 ![Local Image](/images/IP-restriction/1.JPG)  
@@ -204,35 +202,8 @@ Upon sending another GET request, you'll notice that the headers now include ```
 
 ![Local Image](/images/Proxy-caching/9.JPG)
 
-### Step 5-5: Response rate limiting plugin
-In the first step you should go to Plugins section and enable Response rate limiting plugin.
 
-![Local Image](/images/Response-rate-limiting/1.JPG)
-
-
-![Local Image](/images/Response-rate-limiting/2.JPG)
-
-Please configure your plugin settings as shown in the image below.
-
-![Local Image](/images/Response-rate-limiting/3.JPG)
-
-
-![Local Image](/images/Response-rate-limiting/4.JPG)
-
-
-![Local Image](/images/Response-rate-limiting/5.JPG)
-
-
-![Local Image](/images/Response-rate-limiting/6.JPG)
-
-
-![Local Image](/images/Response-rate-limiting/7.JPG)
-
-Now, using Thunder Client, or any other preferred service such as Postman, send a GET request to ``` http://yourip:8000/yourservicename```.You'll notice that the headers now include ```x-ratelimit-limit-first-limit-seconds``` and```x-ratelimit-remaining-first-limit-seconds```. 
-
-![Local Image](/images/Response-rate-limiting/9.JPG)
-
-### Step 5-6: Rate limiting plugin
+### Step 5-5: Rate limiting plugin
 In the first step you should go to Plugins section and enable Response Rate limiting plugin.
 
 ![Local Image](/images/Rate-Limiter/1.JPG) 
@@ -256,7 +227,7 @@ When you enter ``` http://yourip:8000/yourservicename``` in your browser's addre
 
 ![Local Image](/images/Rate-Limiter/8.JPG)  
 
-### Step 5-7: Bot detection plugin
+### Step 5-6: Bot detection plugin
 In the first step you should go to Plugins section and enable Bot Detection plugin.
 
 ![Local Image](/images/Bot-Detection/1.JPG)
@@ -273,7 +244,7 @@ When an attempt is made to access our service through Google Chrome, the system 
 ![Local Image](/images/Bot-Detection/5.JPG)
 
 
-### Step 5-8: Request size limiting plugin
+### Step 5-7: Request size limiting plugin
 In the first step you should go to Plugins section and enable Request size limiting plugin.
 
 ![Local Image](/images/Request-Size-Limiting/1.JPG)
@@ -294,7 +265,7 @@ Conversely, if you surpass the size-limiting restrictions in your request, the r
 ![Local Image](/images/Request-Size-Limiting/5.JPG)
 
 
-### Step 5-9: Key auth restriction plugin
+### Step 5-8: Key auth restriction plugin
 
 In the first step you should go to Plugins section and enable Request size limiting plugin.
 
@@ -315,7 +286,7 @@ If a valid API key is utilized in the request, as demonstrated in the image belo
 ![Local Image](/images/Key-Auth/5.JPG)
 
 
-### Step 5-10: ACL plugin
+### Step 5-9: ACL plugin
 
 In the first step you should go to Plugins section and enable Request size limiting plugin.
 
