@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h1>Kong-API-Gateway</h1>
+<p>A simple project that shows how to use Kong API Gateway service.</p>
+
+<h2>Step 1: Docker</h2>
+<p>Download Docker and install it on your system.</p>
+
+<h2>Step 2: Kong</h2>
+
+<h3>Pull the Docker image</h3>
+
+<pre><code>docker pull kong/kong-gateway:2.7.0.0-alpine
+</code></pre>
+
+<h3>Step 1: Create a Docker network</h3>
+
+<pre><code>docker network create kong-net
+</code></pre>
+
+<h3>Step 2: Start and prepare Postgres DB</h3>
+
+<pre><code>docker run -d --name kong-database --network=kong-net -e "POSTGRES_USER=kong" -e "POSTGRES_DB=kong" -e "POSTGRES_PASSWORD=kong" -p 5432:5432 postgres:9.6
+</code></pre>
+
+<pre><code>docker run --rm --network=kong-net -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-database" -e "KONG_PG_PASSWORD=kong" kong:latest kong migrations bootstrap
+</code></pre>
+
+<h3>Step 3: Start Kong</h3>
+
+<pre><code>docker run -d --name kong --network=kong-net -e "KONG_DATABASE=postgres" -e "KONG_PG_HOST=kong-database" -e "KONG_PG_PASSWORD=kong" -e "KONG_PROXY_ACCESS_LOG=/dev/stdout" -e "KONG_ADMIN_ACCESS_LOG=/dev/stdout" -e "KONG_PROXY_ERROR_LOG=/dev/stderr" -e "KONG_ADMIN_ERROR_LOG=/dev/stderr" -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" -p 8000:8000 -p 8443:8443 -p 8001:8001 -p 8444:8444 -p 8002:8002 kong:latest
+</code></pre>
+
+<h2>Step 3: Create a service</h2>
+<p>In this step, you can use one of the services that I have built (myservice1.py or myservice2.py). Run one of these services locally on your PC.</p>
+
+<p>Here is the code of myservice1.py:</p>
+
+<pre><code>from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/')
+def hello():
+    return "Hi, I'm service 1"
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
+</code></pre>
+
+<p>When you type <code>http://yourip:5000/</code> into your browser's address bar and hit enter, you will see that the service is running successfully.</p>
+
+<img src="/images/IP-restriction/service-runnig.JPG" alt="Local Image">
+
+<p>Your service is running on port 5000 on your local IP.</p>
+
+<h2>Step 4: Primary settings</h2>
+
+<h3>Step 4-1: Adding your service in Kong</h3>
+<p>Type <code>http://yourip:8002/</code> into your browser's address bar and hit enter; you will see the Kong Manager OSS on your browser. Click on Gateway Services on the menu. Add your service information and hit the save button.</p>
+
+<img src="/images/Setup/1.JPG" alt="Local Image">
+<img src="/images/Setup/2.JPG" alt="Local Image">
+
+<h3>Step 4-2: Adding your route in Kong</h3>
+
+<img src="/images/Setup/3.JPG" alt="Local Image">
+<img src="/images/Setup/4.JPG" alt="Local Image">
+
+<h3>Step 4-3: Adding your consumer in Kong</h3>
+
+<img src="/images/Setup/5.JPG" alt="Local Image">
+<img src="/images/Setup/6.JPG" alt="Local Image">
+<img src="/images/Setup/7.JPG" alt="Local Image">
+
+<h2>Step 5: Installing plugins</h2>
+
+<p>In this section, we guide you through the installation and usage of ten distinct plugins in Kong, providing step-by-step instructions for each.</p>
+
+<h3>Step 5-1: IP restriction plugin</h3>
+<p>First, we should know our Docker's IP to add it to the allow or deny list. For understanding your Docker's IP on Windows, first open a Windows PowerShell. Then run the following commands:</p>
+
+<pre><code>docker ps
+docker inspect kong-net
+</code></pre>
+
+<p>Then in this step, you should go to the Plugins section and enable the IP Restriction plugin.</p>
+
+<img src="/images/IP-restriction/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/IP-restriction/2.JPG" alt="Local Image">
+<img src="/images/IP-restriction/3.JPG" alt="Local Image">
+<img src="/images/IP-restriction/4.JPG" alt="Local Image">
+
+<p>Adjust the settings according to your preferences, then click on the install button. Upon entering <code>http://yourip:8000/yourservicename</code> into your browser's address bar and pressing enter, you will observe that access to the service is restricted for your IP.</p>
+
+<img src="/images/IP-restriction/5.JPG" alt="Local Image">
+
+<p>Your service page</p>
+
+<h3>Step 5-2: Basic authentication plugin</h3>
+<p>In this step, you should go to the Plugins section and enable the Basic Authentication plugin.</p>
+
+<img src="/images/Basic-authentication/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Basic-authentication/2.JPG" alt="Local Image">
+<img src="/images/Basic-authentication/3.JPG" alt="Local Image">
+
+<p>Then click on the install button. Once you've activated the plugin, proceed to create a new consumer (as previously explained).</p>
+
+<img src="/images/Basic-authentication/4.JPG" alt="Local Image">
+
+<p>Subsequently, click on your designated consumer and navigate to the credentials section. You will notice the addition of the Basic Authentication section for your consumer. Click on <code>New Basic Auth Credential</code>.</p>
+
+<img src="/images/Basic-authentication/5.JPG" alt="Local Image">
+
+<p>Set a username and password for your consumer, then click on the create button.</p>
+
+<img src="/images/Basic-authentication/6.JPG" alt="Local Image">
+
+<p>Upon entering <code>http://yourip:8000/yourservicename</code> into your browser's address bar and pressing enter,
+
+ you will observe that you need a username and password for accessing your service.</p>
+
+<img src="/images/Basic-authentication/7.JPG" alt="Local Image">
+
+<p>Upon entering the accurate username and password, you will gain access to your service content.</p>
+
+<img src="/images/Basic-authentication/8.JPG" alt="Local Image">
+
+<h3>Step 5-3: Request termination plugin</h3>
+<p>Firstly, you should create your second consumer (as previously explained), then you should go to the Plugins section and enable the Request termination plugin.</p>
+
+<img src="/images/Request-termination/3.JPG" alt="Local Image">
+<img src="/images/Request-termination/4.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Request-termination/5.JPG" alt="Local Image">
+<img src="/images/Request-termination/6.JPG" alt="Local Image">
+<img src="/images/Request-termination/7.JPG" alt="Local Image">
+
+<p>Then click on the install button. Subsequently, click on your designated consumer and navigate to the credentials section. You will notice the addition of the Basic Authentication section for your consumer. Click on <code>New Basic Auth Credential</code>.</p>
+
+<img src="/images/Request-termination/8.JPG" alt="Local Image">
+<img src="/images/Request-termination/9.JPG" alt="Local Image">
+
+<p>Set a username and password for your consumer, then click on the create button.</p>
+
+<img src="/images/Request-termination/10.JPG" alt="Local Image">
+
+<p>When you correctly input your username and password, you'll sign in. However, a message will be displayed, indicating that your request has been terminated.</p>
+
+<img src="/images/Request-termination/11.JPG" alt="Local Image">
+<img src="/images/Request-termination/12.JPG" alt="Local Image">
+
+<h3>Step 5-4: Proxy caching plugin</h3>
+<p>In the first step, you should go to the Plugins section and enable the Proxy caching plugin.</p>
+
+<img src="/images/Proxy-caching/1.JPG" alt="Local Image">
+<img src="/images/Proxy-caching/2.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Proxy-caching/3.JPG" alt="Local Image">
+<img src="/images/Proxy-caching/4.JPG" alt="Local Image">
+<img src="/images/Proxy-caching/5.JPG" alt="Local Image">
+<img src="/images/Proxy-caching/6.JPG" alt="Local Image">
+
+<p>Now, using Thunder Client, or any other preferred service such as Postman, send a GET request to <code>http://yourip:8000/yourservicename</code>. With the plugin disabled, you should observe that everything is functioning correctly, but there is no evidence of caching, as depicted in the image below.</p>
+
+<img src="/images/Proxy-caching/7.JPG" alt="Local Image">
+
+<p>Now enable your proxy caching plugin from Kong manager.</p>
+
+<img src="/images/Proxy-caching/7.JPG" alt="Local Image">
+
+<p>Upon sending another GET request, you'll notice that the headers now include <code>x-cache-key</code> and <code>x-cache-status</code>.</p>
+
+<img src="/images/Proxy-caching/9.JPG" alt="Local Image">
+
+<h3>Step 5-5: Rate limiting plugin</h3>
+<p>In the first step, you should go to the Plugins section and enable the Response Rate limiting plugin.</p>
+
+<img src="/images/Rate-Limiter/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Rate-Limiter/2.JPG" alt="Local Image">
+<img src="/images/Rate-Limiter/3.JPG" alt="Local Image">
+<img src="/images/Rate-Limiter/4.JPG" alt="Local Image">
+<img src="/images/Rate-Limiter/5.JPG" alt="Local Image">
+<img src="/images/Rate-Limiter/6.JPG" alt="Local Image">
+
+<p>When you enter <code>http://yourip:8000/yourservicename</code> in your browser's address bar and hit enter, attempting to exceed the rate limit will result in an error.</p>
+
+<img src="/images/Rate-Limiter/8.JPG" alt="Local Image">
+
+<h3>Step 5-6: Bot detection plugin</h3>
+<p>In the first step, you should go to the Plugins section and enable the Bot Detection plugin.</p>
+
+<img src="/images/Bot-Detection/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Bot-Detection/2.JPG" alt="Local Image">
+<img src="/images/Bot-Detection/3.JPG" alt="Local Image">
+
+<p>When an attempt is made to access our service through Google Chrome, the system promptly identifies the user as a bot. Consequently, upon opening Google Chrome and entering <code>http://yourip:8000/yourservicename</code> into the browser's address bar, an error message explicitly stating "Forbidden" is displayed. This proactive measure plays a crucial role in recognizing and restraining potential automated bot activities.</p>
+
+<img src="/images/Bot-Detection/5.JPG" alt="Local Image">
+
+<h3>Step 5-7: Request size limiting plugin</h3>
+<p>In the first step, you should go to the Plugins section and enable the Request size limiting plugin.</p>
+
+<img src="/images/Request-Size-Limiting/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Request-Size-Limiting/2.JPG" alt="Local Image">
+<img src="/images/Request-Size-Limiting/3.JPG" alt="Local Image">
+
+<p>Use Thunder Client, Postman, or your preferred service to send a GET request to <code>http://yourip:8000/yourservicename</code>, ensuring that it remains within the size-limiting restrictions. Upon doing so, you will receive a standard response.</p>
+
+<img src="/images/Request-Size-Limiting/4.JPG" alt="Local Image">
+
+<p>Conversely, if you surpass the size-limiting restrictions in your request, the response will notify you that your request exceeds the size-limiting range.</p>
+
+<img src="/images/Request-Size-Limiting/5.JPG" alt="Local Image">
+
+<h3>Step 5-8: Key auth restriction plugin</h3>
+<p>In the first step, you should go to the Plugins section and enable the Request size limiting plugin.</p>
+
+<img src="/images/Key-Auth/1.JPG" alt="Local Image">
+
+<p>Please configure your plugin settings as shown in the image below.</p>
+
+<img src="/images/Key-Auth/2.JPG" alt="Local Image">
+<img src="/images/Key-Auth/3.JPG" alt="Local Image">
+
+<p>Use Thunder Client, Postman, or your preferred service
