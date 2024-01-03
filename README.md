@@ -65,15 +65,17 @@ When you type ``` http://yourip:5000/``` into your browser's address bar and hit
  click on Gateway Services on the menu.
  add your service information and hit save button.  
  
- #### image of creating service should be added 
- 
+![Local Image](/images/Setup/1.JPG)
+![Local Image](/images/Setup/2.JPG)
  ### Step4-2: Adding your route in Kong
 
- #### image of creating route should be added 
- 
+![Local Image](/images/Setup/3.JPG)
+![Local Image](/images/Setup/4.JPG)
  ### Step4-3: Adding your consumer in Kong
  
- #### image of creating consumer should be added 
+![Local Image](/images/Setup/5.JPG)
+![Local Image](/images/Setup/6.JPG)
+![Local Image](/images/Setup/7.JPG)
 
 ## Step 5:Installing plugins
 In this section, we guide you through the installation and usage of ten distinct plugins in Kong, providing step-by-step instructions for each
