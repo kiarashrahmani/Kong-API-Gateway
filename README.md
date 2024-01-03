@@ -69,10 +69,12 @@ When you type ``` http://yourip:5000/``` into your browser's address bar and hit
 ![Local Image](/images/Setup/2.JPG)
  ### Step4-2: Adding your route in Kong
 
+add your route information and hit save button.
 ![Local Image](/images/Setup/3.JPG)
 ![Local Image](/images/Setup/4.JPG)
  ### Step4-3: Adding your consumer in Kong
  
+add your consumer information and hit save button.
 ![Local Image](/images/Setup/5.JPG)
 ![Local Image](/images/Setup/6.JPG)
 ![Local Image](/images/Setup/7.JPG)
