@@ -337,7 +337,7 @@ whereas the bot consumer is restricted from accessing it.
 This project represents a collaborative effort between Kiarash Rahmani and Ahmad Asadi. Working in tandem, we dedicated our efforts to developing a comprehensive and robust repository, designed to guide users in optimizing their experience with the Kong API gateway service.
 
 - [Kiarash Rahmani](https://github.com/kiarashrahmani)
-- [Ahmad Asadi](https://github.com/BlackAssassinCoder)
+- [Ahmad Asadi](https://github.com/AsadiAhmad)
 
 # License
 This project is licensed under the MIT License.
